@@ -1,5 +1,6 @@
 .product__item {
   cursor: pointer;
+  z-index: -111;
 }
 .product-info h3 {
   margin-top: 15px;

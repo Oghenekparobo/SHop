@@ -5,6 +5,7 @@ import logo from "../../assets/images/eco-logo.png";
 import usericon from "../../assets/images/user-icon.png";
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const NAV_LINK = [
   {
@@ -24,6 +25,8 @@ const NAV_LINK = [
 const Header = () => {
   const headerRef = useRef(null);
   const menuRef = useRef(null);
+
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
 
   const stickyHeadHandler = () => {
     window.addEventListener("scroll", () => {
@@ -81,7 +84,7 @@ const Header = () => {
               </span>
               <span className="cart__icon">
                 <i className="ri-shopping-bag-line"></i>
-                <div className="badge">1</div>
+                <div className="badge">{totalQuantity}</div>
               </span>
 
               <span>
