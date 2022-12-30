@@ -14,8 +14,8 @@ const ProductCard = ({ item }) => {
     dispatch(
       cartActions.addItems({
         id: item.id,
-        name: item.productName,
-        image: item.imgUrl,
+        productName: item.productName,
+        imgUrl: item.imgUrl,
         price: item.price,
       })
     );
@@ -41,7 +41,7 @@ const ProductCard = ({ item }) => {
         </div>
 
         <div className="product__card-bottom d-flex align-items-center justify-content-between p-2">
-          <span className="price">${item.price}</span>
+          <span className="price">{item.price} naira</span>
           <motion.span whileTap={{ scale: 1.1 }} onClick={addToCartHandler}>
             <i className="ri-add-fill"></i>
           </motion.span>
