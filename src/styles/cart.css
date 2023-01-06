@@ -10,4 +10,5 @@ td i{
 
 td , th{
     color: var(--primary-color);
+    text-transform: capitalize;
 }
