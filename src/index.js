@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AuthContextProvider } from "./store/auth-context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,7 +17,7 @@ root.render(
     <BrowserRouter>
       <Provider store={store}>
         <ToastContainer
-        style={{ zIndex: 9999 }}
+          style={{ zIndex: 9999 }}
           position="top-right"
           autoClose={100}
           hideProgressBar={false}
@@ -26,9 +27,10 @@ root.render(
           draggable
           theme="dark"
         />
-
         <ToastContainer />
-        <App />
+        <AuthContextProvider>
+          <App />
+        </AuthContextProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

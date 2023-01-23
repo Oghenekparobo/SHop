@@ -1,20 +1,61 @@
+import { useContext } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Col, Container, Form, FormGroup, Row } from "reactstrap";
+import { useNavigate} from "react-router-dom";
+
 import Helmet from "../components/helmet/Helmet";
+import AuthContext from "../store/auth-context";
 import "../styles/login.css";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [profilePic, setProfilePic] = useState("");
+  // const [profilePic, setProfilePic] = useState("");
+  const navigate = useNavigate();
 
-  console.log(profilePic);
+  const authCtx = useContext(AuthContext);
+
+  // console.log(profilePic);
 
   const submitHandler = (e) => {
     e.preventDefault();
     
+    fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB5_GzbVBSoXJDHT6rhpV7M9spFZ4dsT-E' , {
+      method:'POST',
+      body:JSON.stringify({
+        email:email,
+        password:password,
+        returnSecureToken: true,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then( async (res) => {
+      if (res.ok) {
+        return await res.json();
+      } else {
+        return res.json().then((data) => {
+          let errorMessage = 'Authentication failed!';
+          if (data && data.error && data.error.message) {
+            errorMessage = data.error.message;
+          }
+
+          throw new Error(errorMessage);
+        });
+      }
+    })
+    .then((data) => {
+      const expirationTime = new Date(
+        new Date().getTime() + +data.expiresIn * 1000
+      );
+      authCtx.login(data.idToken, expirationTime.toISOString());
+      navigate('/login');
+    })
+    .catch((err) => {
+      alert(err.message);
+    });
   };
   return (
     <Helmet title="Signup">
@@ -52,13 +93,13 @@ const SignUp = () => {
                     required
                   />
                 </FormGroup>
-                <FormGroup className="form-group">
+                {/* <FormGroup className="form-group">
                   <input
                     type="file"
                     onChange={(e) => {setProfilePic(e.target.files[0])}}
                     required
                   />
-                </FormGroup>
+                </FormGroup> */}
                 <button className="shop__btn auth__btn">Create an account</button>
                 <p>
                   already have an account? <Link to="/login">Login</Link>{" "}

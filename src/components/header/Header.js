@@ -20,6 +20,10 @@ const NAV_LINK = [
     path: "cart",
     display: "Cart",
   },
+  {
+    path: "login",
+    display: "login",
+  },
 ];
 
 const Header = () => {
